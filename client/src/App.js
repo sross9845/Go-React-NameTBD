@@ -1,26 +1,34 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    const [links, setLink] = useState([])
+  
+    useEffect(() => {
+      axios.get("http://localhost:3001/resources")
+      .then(resources => {
+        console.log(resources.data)
+        setLink(resources.data)
+      }).then(data => {console.log(links)})
+    },[])
+    
+    var names = links.map(link => {
+
+    return( 
+            <>
+            <p>Link: {link.Link}</p>
+            <p>Author: {link.Author}</p>
+            <hr />
+            </>
+      )
+    })
+    return (
+        <p>{names}</p>
+    );
+  }
+ 
+
 
 export default App;
